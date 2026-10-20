@@ -1,0 +1,236 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #1A120B;
+  --bg-secondary: #2B1D12;
+  --gold: #E8B84B;
+  --gold-light: #F2CC6B;
+  --gold-dark: #C9962E;
+  --cream: #F5E6C8;
+  --muted: #D9C3A0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(232, 184, 75, 0.28);
+  color: #F2CC6B;
+}
+
+html, body {
+  background-color: var(--bg-primary);
+  color: var(--cream);
+  font-family: 'Jost', sans-serif;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hide native cursor on fine pointer devices */
+@media (pointer: fine) {
+  body, a, button, input, select, textarea, label {
+    cursor: none !important;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #1A120B;
+}
+::-webkit-scrollbar-thumb {
+  background: #4A331F;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E8B84B;
+}
+
+/* 3D Perspective Containers */
+.perspective-stage {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+}
+
+/* Color Grading for Film Photography */
+.film-photo {
+  filter: sepia(26%) contrast(108%) brightness(88%) saturate(92%);
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s ease, box-shadow 0.8s ease;
+}
+
+.film-photo-wrap:hover .film-photo {
+  transform: scale(1.055);
+  filter: sepia(15%) contrast(112%) brightness(98%) saturate(102%);
+}
+
+.film-photo-wrap {
+  transition: box-shadow 0.8s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s ease;
+}
+
+.film-photo-wrap:hover {
+  box-shadow: 0 20px 60px -15px rgba(232, 184, 75, 0.22), 0 0 35px rgba(232, 184, 75, 0.12);
+  border-color: rgba(232, 184, 75, 0.45);
+}
+
+/* Vignette & Anamorphic Letterbox Overlays */
+.cinematic-vignette {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(26, 18, 11, 0) 48%,
+    rgba(26, 18, 11, 0.45) 78%,
+    rgba(12, 8, 4, 0.88) 100%
+  );
+}
+
+/* Subtle Warm Light Leak */
+.light-leak-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: -20%;
+  z-index: 44;
+  opacity: 0.14;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(circle at 18% 28%, rgba(232, 184, 75, 0.45), transparent 42%),
+    radial-gradient(circle at 85% 72%, rgba(201, 150, 46, 0.38), transparent 48%),
+    radial-gradient(circle at 52% 12%, rgba(242, 204, 107, 0.25), transparent 35%);
+  animation: lightLeakDrift 22s ease-in-out infinite alternate;
+}
+
+@keyframes lightLeakDrift {
+  0% {
+    transform: translate3d(-3%, -2%, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(3%, 2%, 0) scale(1.08) rotate(3deg);
+  }
+  100% {
+    transform: translate3d(-2%, 4%, 0) scale(1.03) rotate(-2deg);
+  }
+}
+
+/* Subtitle / Line Reveal Clip Path */
+.clip-reveal-line {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  display: block;
+}
+
+/* Credit Roll Underline Interaction */
+.credit-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+}
+.credit-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, #E8B84B, #F2CC6B);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.55s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.credit-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Input Underline Roll */
+.film-input-group {
+  position: relative;
+}
+.film-input-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background: #E8B84B;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.film-input:focus ~ .film-input-line {
+  transform: scaleX(1);
+}
+
+/* Film Leader Sweep Animation */
+@keyframes radarSweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.leader-sweep {
+  animation: radarSweep 1s linear infinite;
+  transform-origin: 100px 100px;
+}
+
+/* Subtle Film Projector Flicker */
+@keyframes projectorFlicker {
+  0%, 100% { opacity: 1; }
+  42% { opacity: 0.97; }
+  43% { opacity: 0.92; }
+  44% { opacity: 0.99; }
+  78% { opacity: 0.96; }
+  79% { opacity: 0.91; }
+  80% { opacity: 1; }
+}
+.projector-flicker {
+  animation: projectorFlicker 6s infinite;
+}
+
+/* Billing Block Condensed Text */
+.billing-block {
+  font-family: 'Jost', sans-serif;
+  letter-spacing: 0.22em;
+  line-height: 2.1;
+  text-transform: uppercase;
+}
+.billing-role {
+  font-size: 0.58rem;
+  color: #D9C3A0;
+  opacity: 0.7;
+  vertical-align: middle;
+  margin: 0 0.35rem;
+  letter-spacing: 0.18em;
+}
+.billing-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  color: #F5E6C8;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+/* Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .light-leak-overlay {
+    animation: none !important;
+  }
+}

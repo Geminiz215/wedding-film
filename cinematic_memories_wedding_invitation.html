@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SYIFA & FARHAT — A Motion Picture (24.10.2026)</title>
+
+  <!-- Google Fonts: Cormorant Garamond, Playfair Display, Jost -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- GSAP & ScrollTrigger & Lenis Smooth Scroll -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            film: {
+              bg: '#1A120B',
+              bgSoft: '#2B1D12',
+              gold: '#E8B84B',
+              goldLight: '#F2CC6B',
+              goldDark: '#C9962E',
+              cream: '#F5E6C8',
+              muted: '#D9C3A0',
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', '"Playfair Display"', 'Georgia', 'serif'],
+            display: ['"Playfair Display"', '"Cormorant Garamond"', 'serif'],
+            sans: ['"Jost"', 'sans-serif'],
+          },
+          letterSpacing: {
+            credit: '0.25em',
+            wideCredit: '0.38em',
+            poster: '0.18em',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg-primary: #1A120B;
+      --bg-secondary: #2B1D12;
+      --gold: #E8B84B;
+      --gold-light: #F2CC6B;
+      --gold-dark: #C9962E;
+      --cream: #F5E6C8;
+      --muted: #D9C3A0;
+    }
+
+    * {
+      box-sizing: border-box;
+      selection-background-color: #E8B84B;
+      selection-color: #1A120B;
+    }
+
+    ::selection {
+      background: rgba(232, 184, 75, 0.28);
+      color: #F2CC6B;
+    }
+
+    html, body {
+      background-color: var(--bg-primary);
+      color: var(--cream);
+      font-family: 'Jost', sans-serif;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Hide native cursor on fine pointer devices */
+    @media (pointer: fine) {
+      body, a, button, input, select, textarea, label {
+        cursor: none !important;
+      }
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1A120B;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #4A331F;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #E8B84B;
+    }
+
+    /* 3D Perspective Containers */
+    .perspective-stage {
+      perspective: 1200px;
+      transform-style: preserve-3d;
+    }
+
+    .preserve-3d {
+      transform-style: preserve-3d;
+      will-change: transform, opacity, filter;
+    }
+
+    /* Color Grading for Film Photography */
+    .film-photo {
+      filter: sepia(26%) contrast(108%) brightness(88%) saturate(92%);
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s ease, box-shadow 0.8s ease;
+    }
+
+    .film-photo-wrap:hover .film-photo {
+      transform: scale(1.055);
+      filter: sepia(15%) contrast(112%) brightness(98%) saturate(102%);
+    }
+
+    .film-photo-wrap {
+      transition: box-shadow 0.8s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s ease;
+    }
+
+    .film-photo-wrap:hover {
+      box-shadow: 0 20px 60px -15px rgba(232, 184, 75, 0.22), 0 0 35px rgba(232, 184, 75, 0.12);
+      border-color: rgba(232, 184, 75, 0.45);
+    }
+
+    /* Vignette & Anamorphic Letterbox Overlays */
+    .cinematic-vignette {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: 45;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(26, 18, 11, 0) 48%,
+        rgba(26, 18, 11, 0.45) 78%,
+        rgba(12, 8, 4, 0.88) 100%
+      );
+    }
+
+    /* Subtle Warm Light Leak */
+    .light-leak-overlay {
+      pointer-events: none;
+      position: fixed;
+      inset: -20%;
+      z-index: 44;
+      opacity: 0.14;
+      mix-blend-mode: screen;
+      background:
+        radial-gradient(circle at 18% 28%, rgba(232, 184, 75, 0.45), transparent 42%),
+        radial-gradient(circle at 85% 72%, rgba(201, 150, 46, 0.38), transparent 48%),
+        radial-gradient(circle at 52% 12%, rgba(242, 204, 107, 0.25), transparent 35%);
+      animation: lightLeakDrift 22s ease-in-out infinite alternate;
+    }
+
+    @keyframes lightLeakDrift {
+      0% {
+        transform: translate3d(-3%, -2%, 0) scale(1) rotate(0deg);
+      }
+      50% {
+        transform: translate3d(3%, 2%, 0) scale(1.08) rotate(3deg);
+      }
+      100% {
+        transform: translate3d(-2%, 4%, 0) scale(1.03) rotate(-2deg);
+      }
+    }
+
+    /* Subtitle / Line Reveal Clip Path */
+    .clip-reveal-line {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      display: block;
+    }
+
+    /* Credit Roll Underline Interaction */
+    .credit-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .credit-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, #E8B84B, #F2CC6B);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.55s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+    .credit-link:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* Input Underline Roll */
+    .film-input-group {
+      position: relative;
+    }
+    .film-input-line {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 1px;
+      width: 100%;
+      background: #E8B84B;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+    .film-input:focus ~ .film-input-line {
+      transform: scaleX(1);
+    }
+
+    /* Film Leader Sweep Animation */
+    @keyframes radarSweep {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .leader-sweep {
+      animation: radarSweep 1s linear infinite;
+      transform-origin: 100px 100px;
+    }
+
+    /* Subtle Film Projector Flicker */
+    @keyframes projectorFlicker {
+      0%, 100% { opacity: 1; }
+      42% { opacity: 0.97; }
+      43% { opacity: 0.92; }
+      44% { opacity: 0.99; }
+      78% { opacity: 0.96; }
+      79% { opacity: 0.91; }
+      80% { opacity: 1; }
+    }
+    .projector-flicker {
+      animation: projectorFlicker 6s infinite;
+    }
+
+    /* Billing Block Condensed Text */
+    .billing-block {
+      font-family: 'Jost', sans-serif;
+      letter-spacing: 0.22em;
+      line-height: 2.1;
+      text-transform: uppercase;
+    }
+    .billing-role {
+      font-size: 0.58rem;
+      color: #D9C3A0;
+      opacity: 0.7;
+      vertical-align: middle;
+      margin: 0 0.35rem;
+      letter-spacing: 0.18em;
+    }
+    .billing-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      color: #F5E6C8;
+      letter-spacing: 0.14em;
+      font-weight: 600;
+      vertical-align: middle;
+    }
+
+    /* Reduced Motion Preferences */
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .light-leak-overlay {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-film-bg text-film-cream antialiased selection:bg-film-gold selection:text-film-bg">
+
+  <!-- ==========================================
+       1. LOADING SCREEN: 35MM COUNTDOWN LEADER
+       ========================================== -->
+  <div id="film-leader" class="fixed inset-0 z-[100] bg-[#120C07] flex flex-col items-center justify-center overflow-hidden select-none">
+    <!-- Film Sprocket Holes Left & Right -->
+    <div class="absolute left-3 md:left-6 top-0 bottom-0 w-4 md:w-6 flex flex-col justify-between py-4 opacity-25 pointer-events-none">
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+    </div>
+    <div class="absolute right-3 md:right-6 top-0 bottom-0 w-4 md:w-6 flex flex-col justify-between py-4 opacity-25 pointer-events-none">
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+      <div class="w-full h-6 border border-film-gold/60 rounded-sm"></div>
+    </div>
+
+    <!-- Top Technical Metadata -->
+    <div class="absolute top-6 md:top-10 inset-x-12 flex justify-between items-center text-[10px] tracking-wideCredit uppercase text-film-muted/60">
+      <span>KODAK 2383 PRINT FILM // REEL 01</span>
+      <span class="hidden sm:inline">ASPECT RATIO 2.39:1 SCOPE</span>
+      <span>HEAD LEADER — SYNC POP</span>
+    </div>
+
+    <!-- Center 35mm Leader Crosshair & Countdown -->
+    <div class="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
+      <svg viewBox="0 0 200 200" class="w-full h-full">
+        <!-- Crosshair axes -->
+        <line x1="0" y1="100" x2="200" y2="100" stroke="#E8B84B" stroke-width="0.6" stroke-opacity="0.45" />
+        <line x1="100" y1="0" x2="100" y2="200" stroke="#E8B84B" stroke-width="0.6" stroke-opacity="0.45" />
+        <!-- Outer & Inner Circles -->
+        <circle cx="100" cy="100" r="88" fill="none" stroke="#E8B84B" stroke-width="1.2" stroke-opacity="0.7" />
+        <circle cx="100" cy="100" r="72" fill="none" stroke="#D9C3A0" stroke-width="0.75" stroke-dasharray="4 3" stroke-opacity="0.55" />
+        <circle cx="100" cy="100" r="18" fill="none" stroke="#E8B84B" stroke-width="0.5" stroke-opacity="0.4" />
+        <!-- Rotating Sweep Line -->
+        <g id="leader-sweep-line" class="leader-sweep">
+          <line x1="100" y1="100" x2="100" y2="12" stroke="#F2CC6B" stroke-width="1.5" />
+          <path d="M100,100 L100,12 A88,88 0 0,0 45,32 Z" fill="url(#sweepGrad)" opacity="0.25" />
+        </g>
+        <defs>
+          <linearGradient id="sweepGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#E8B84B" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="#1A120B" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <!-- Countdown Digit -->
+      <span id="leader-number" class="absolute font-serif text-7xl md:text-8xl text-film-gold tracking-tighter font-normal projector-flicker">
+        3
+      </span>
+    </div>
+
+    <!-- Guest Invitation Ticket / Enter Theatre Controls -->
+    <div class="mt-6 text-center px-6 max-w-md z-10">
+      <p class="text-[10px] tracking-wideCredit uppercase text-film-muted/70 mb-2">
+        SPECIAL SCREENING INVITATION FOR
+      </p>
+      <p id="guest-name-display" class="font-serif italic text-xl md:text-2xl text-film-goldLight mb-6 tracking-wider">
+        Honored Guest &amp; Partner
+      </p>
+
+      <div id="leader-status-text" class="text-[11px] tracking-credit uppercase text-film-cream/80 mb-5">
+        THREADING 35MM REEL...
+      </div>
+
+      <!-- Enter Buttons -->
+      <div id="enter-controls" class="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-90 transition-opacity duration-500">
+        <button id="btn-enter-audio" class="px-6 py-3 border border-film-gold/70 bg-film-gold/10 hover:bg-film-gold hover:text-film-bg text-film-goldLight text-[11px] tracking-wideCredit uppercase transition-all duration-500 rounded-sm">
+          ENTER THEATRE (WITH SOUND)
+        </button>
+        <button id="btn-enter-silent" class="px-4 py-2 text-[10px] tracking-credit uppercase text-film-muted/70 hover:text-film-cream credit-link">
+          CONTINUE SILENTLY
+        </button>
+      </div>
+    </div>
+
+    <!-- Bottom Technical Stamp -->
+    <div class="absolute bottom-6 md:bottom-10 inset-x-12 flex justify-between items-center text-[10px] tracking-credit uppercase text-film-muted/50">
+      <span>PICTURE START</span>
+      <span>24 FPS // WARM ANALOG</span>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       GLOBAL OVERLAYS: GRAIN, VIGNETTE, CURSOR, HUD
+       ========================================== -->
+  <!-- Animated Canvas Film Grain (5% opacity) -->
+  <canvas id="film-grain-canvas" class="fixed inset-0 pointer-events-none z-50 opacity-[0.06] mix-blend-overlay"></canvas>
+
+  <!-- Soft Warm Light Leak & Dark Vignette -->
+  <div class="light-leak-overlay"></div>
+  <div class="cinematic-vignette"></div>
+
+  <!-- Custom Golden Dot Cursor -->
+  <div id="cursor-dot" class="fixed top-0 left-0 w-2 h-2 bg-film-gold rounded-full pointer-events-none z-[999] -translate-x-1/2 -translate-y-1/2 hidden md:block shadow-[0_0_10px_#E8B84B]"></div>
+  <div id="cursor-ring" class="fixed top-0 left-0 w-8 h-8 border border-film-gold/45 rounded-full pointer-events-none z-[998] -translate-x-1/2 -translate-y-1/2 hidden md:block transition-[width,height,border-color,background-color] duration-300"></div>
+
+  <!-- Top Minimal Editorial Navigation -->
+  <header class="fixed top-0 inset-x-0 z-40 px-5 md:px-12 py-5 flex items-center justify-between mix-blend-difference pointer-events-none">
+    <a href="#hero" class="pointer-events-auto text-[10px] md:text-[11px] tracking-wideCredit uppercase text-film-cream/85 hover:text-film-gold transition-colors">
+      A &amp; B <span class="text-film-gold mx-1.5">—</span> MMXXVI
+    </a>
+
+    <nav class="hidden md:flex items-center gap-8 pointer-events-auto text-[10px] tracking-credit uppercase text-film-muted/80">
+      <a href="#credits" class="credit-link py-1 hover:text-film-goldLight transition-colors">PROLOGUE</a>
+      <a href="#story" class="credit-link py-1 hover:text-film-goldLight transition-colors">SCENES</a>
+      <a href="#gallery" class="credit-link py-1 hover:text-film-goldLight transition-colors">STILLS</a>
+      <a href="#schedule" class="credit-link py-1 hover:text-film-goldLight transition-colors">THE DAY</a>
+      <a href="#rsvp" class="credit-link py-1 hover:text-film-goldLight transition-colors">CREDITS &amp; RSVP</a>
+    </nav>
+
+    <div class="pointer-events-auto flex items-center gap-3">
+      <span class="hidden sm:inline text-[10px] tracking-credit uppercase text-film-muted/60">REEL</span>
+      <span id="reel-timecode" class="font-mono text-[11px] tracking-widest text-film-gold">00:00:00:00</span>
+    </div>
+  </header>
+
+  <!-- Bottom Floating Audio / Vinyl Soundtrack Toggle HUD -->
+  <div class="fixed bottom-5 right-5 md:bottom-8 md:right-10 z-40 flex items-center gap-3">
+    <button
+      id="sound-toggle-btn"
+      aria-label="Toggle Film Score Audio"
+      class="group flex items-center gap-3 px-4 py-2.5 rounded-full bg-film-bg/85 backdrop-blur-md border border-film-gold/30 hover:border-film-gold/80 transition-all duration-300 shadow-lg"
+    >
+      <!-- Equalizer Bars -->
+      <span class="flex items-end gap-[2px] h-3 w-3.5" id="eq-bars">
+        <span class="w-[2px] h-1 bg-film-gold transition-all duration-300 eq-bar"></span>
+        <span class="w-[2px] h-1 bg-film-gold transition-all duration-300 eq-bar"></span>
+        <span class="w-[2px] h-1 bg-film-gold transition-all duration-300 eq-bar"></span>
+        <span class="w-[2px] h-1 bg-film-gold transition-all duration-300 eq-bar"></span>
+      </span>
+      <span id="sound-status-label" class="text-[9px] tracking-credit uppercase text-film-muted group-hover:text-film-goldLight">
+        SCORE: MUTED
+      </span>
+    </button>
+  </div>
+
+  <!-- ==========================================
+       MAIN CINEMATIC REEL
+       ========================================== -->
+  <main id="smooth-wrapper" class="relative z-10">
+
+    <!-- ==========================================
+         SECTION 1: HERO — "TITLE CARD"
+         ========================================== -->
+    <section id="hero" class="relative h-[115vh] w-full overflow-hidden perspective-stage flex items-center justify-center">
+
+      <!-- Layer 1: Deep Background Landscape with 3D Parallax -->
+      <div id="hero-bg-layer" class="absolute inset-[-8%] z-0 preserve-3d">
+        <img
+          src="https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?auto=format&fit=crop&w=1800&q=85"
+          onerror="this.src='https://placehold.co/1800x1200/1A120B/E8B84B?text=Misty+Pine+Landscape'"
+          alt="Misty Morning Pine Forest Landscape"
+          class="w-full h-full object-cover film-photo scale-110"
+        />
+        <!-- Warm Analog Color Wash -->
+        <div class="absolute inset-0 bg-gradient-to-b from-[#1A120B]/70 via-[#1A120B]/45 to-[#1A120B]"></div>
+        <div class="absolute inset-0 bg-[#2B1D12]/35 mix-blend-multiply"></div>
+      </div>
+
+      <!-- Layer 2: Midground Drifting Mist & Couple Silhouette -->
+      <div id="hero-mid-layer" class="absolute inset-0 z-10 pointer-events-none flex items-center justify-center preserve-3d">
+        <div class="w-[88vw] md:w-[66vw] h-[68vh] border border-film-gold/15 rounded-sm relative overflow-hidden opacity-45">
+          <img
+            src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=80"
+            onerror="this.src='https://placehold.co/1400x900/2B1D12/E8B84B?text=Golden+Hour+Silhouette'"
+            alt="Couple in Warm Golden Light"
+            class="w-full h-full object-cover film-photo mix-blend-luminosity opacity-60"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#1A120B] via-transparent to-[#1A120B]/80"></div>
+        </div>
+      </div>
+
+      <!-- Layer 3: Foreground Title Card (Sinks backward in translateZ on scroll) -->
+      <div id="hero-title-card" class="relative z-20 text-center px-6 max-w-5xl mx-auto preserve-3d">
+        <!-- Top Studio Presentation Line -->
+        <div class="overflow-hidden mb-5">
+          <p class="hero-reveal text-[10px] md:text-xs tracking-wideCredit uppercase text-film-muted/90">
+            AN INTIMATE MOTION PICTURE PRODUCTION
+          </p>
+        </div>
+
+        <!-- Classic Movie Title Card with Thin Horizontal Golden Hairlines -->
+        <div class="py-6 md:py-10 border-t border-b border-film-gold/55 relative">
+          <!-- Subtle Corner Frame Marks -->
+          <span class="absolute -top-1 left-0 w-2 h-2 border-t border-l border-film-gold"></span>
+          <span class="absolute -top-1 right-0 w-2 h-2 border-t border-r border-film-gold"></span>
+          <span class="absolute -bottom-1 left-0 w-2 h-2 border-b border-l border-film-gold"></span>
+          <span class="absolute -bottom-1 right-0 w-2 h-2 border-b border-r border-film-gold"></span>
+
+          <p class="hero-reveal font-serif italic text-film-goldLight/90 text-base md:text-xl tracking-widest mb-2">
+            In the Mood for Forever
+          </p>
+
+          <h1 class="hero-reveal font-serif text-4xl sm:text-6xl md:text-8xl lg:text-[6.2rem] text-film-gold tracking-poster uppercase font-normal leading-none my-3 projector-flicker">
+            SYIFA <span class="font-serif italic font-light text-film-cream text-3xl sm:text-5xl md:text-6xl align-middle mx-1 md:mx-3">&amp;</span> FARHAT
+          </h1>
+
+          <p class="hero-reveal text-[10px] md:text-xs tracking-wideCredit uppercase text-film-cream/80 mt-4">
+            WRITTEN BY TIME &nbsp;•&nbsp; DIRECTED BY DESTINY
+          </p>
+        </div>
+
+        <!-- Release Date & Location -->
+        <div class="mt-8 flex flex-col items-center gap-3">
+          <div class="hero-reveal inline-flex items-center gap-4 px-5 py-1.5 border border-film-gold/30 bg-film-bg/50 backdrop-blur-sm rounded-sm">
+            <span class="text-[10px] tracking-wideCredit uppercase text-film-muted">PREMIERING</span>
+            <span class="w-1 h-1 rounded-full bg-film-gold"></span>
+            <span class="font-serif text-lg md:text-xl tracking-[0.3em] text-film-goldLight">24 . 10 . 2026</span>
+          </div>
+          <p class="hero-reveal text-[10px] tracking-wideCredit uppercase text-film-muted/75 mt-1">
+            PINE HILL SANCTUARY — LEMBANG, BANDUNG
+          </p>
+        </div>
+      </div>
+
+      <!-- Scroll Cue at Bottom of Frame -->
+      <div class="absolute bottom-8 inset-x-0 z-20 flex flex-col items-center pointer-events-none">
+        <span class="text-[9px] tracking-wideCredit uppercase text-film-muted/60 mb-2">ROLL CREDITS</span>
+        <div class="w-[1px] h-12 bg-gradient-to-b from-film-gold/80 to-transparent"></div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 2: OPENING CREDITS & SUBTITLE QUOTE
+         ========================================== -->
+    <section id="credits" class="relative py-28 md:py-44 px-6 md:px-16 max-w-5xl mx-auto">
+      <div class="text-center space-y-16">
+
+        <!-- Film Billing Block Header -->
+        <div class="space-y-3 reveal-block">
+          <p class="text-[10px] tracking-wideCredit uppercase text-film-gold/80">
+            OPENING CREDITS // REEL 01
+          </p>
+          <h2 class="text-xs md:text-sm tracking-wideCredit uppercase text-film-cream font-light">
+            A FILM BY SYIFA &amp; FARHAT
+          </h2>
+          <p class="text-[10px] tracking-credit uppercase text-film-muted/65">
+            IN ASSOCIATION WITH KELUARGA BESAR WIDYA &amp; KELUARGA BESAR MAHENDRA
+          </p>
+        </div>
+
+        <!-- Starring Cast (Bride & Groom Editorial Credits) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 pt-6 border-t border-b border-film-gold/20 py-12">
+          <!-- Bride Credit -->
+          <div class="text-center md:text-right space-y-2 reveal-block">
+            <p class="text-[10px] tracking-wideCredit uppercase text-film-gold">LEADING LADY</p>
+            <h3 class="font-serif text-3xl md:text-4xl text-film-cream tracking-wider">Syifa</h3>
+            <p class="text-[11px] tracking-credit uppercase text-film-muted/75 leading-relaxed pt-1">
+              PUTRI PERTAMA DARI<br />
+              BAPAK HENDRA WIDYA &amp; IBU RATNA SARI
+            </p>
+          </div>
+
+          <!-- Groom Credit -->
+          <div class="text-center md:text-left space-y-2 reveal-block">
+            <p class="text-[10px] tracking-wideCredit uppercase text-film-gold">LEADING MAN</p>
+            <h3 class="font-serif text-3xl md:text-4xl text-film-cream tracking-wider">Farhat</h3>
+            <p class="text-[11px] tracking-credit uppercase text-film-muted/75 leading-relaxed pt-1">
+              PUTRA KEDUA DARI<br />
+              BAPAK SURYA MAHENDRA &amp; IBU DEWI LESTARI
+            </p>
+          </div>
+        </div>
+
+        <!-- Cinema Subtitle Quote Reveal (Word / Line Clip-Path) -->
+        <div class="max-w-3xl mx-auto pt-8 space-y-6">
+          <div class="space-y-2 font-serif italic text-2xl sm:text-3xl md:text-4xl text-film-goldLight leading-relaxed">
+            <span class="subtitle-line clip-reveal-line">“Kita tidak bertemu secara kebetulan;</span>
+            <span class="subtitle-line clip-reveal-line">kita adalah dua adegan panjang yang akhirnya</span>
+            <span class="subtitle-line clip-reveal-line">menemukan satu layar yang sama.”</span>
+          </div>
+          <p class="subtitle-line text-[10px] tracking-wideCredit uppercase text-film-muted/70 pt-2">
+            — DIALOGUE FROM ACT I (OSLO / JAKARTA, 2021)
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 3: THE STORY — "SCENES" (3D Perspective Cards)
+         ========================================== -->
+    <section id="story" class="relative py-24 md:py-36 px-6 md:px-16 max-w-7xl mx-auto">
+
+      <!-- Section Heading -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-20 pb-6 border-b border-film-gold/25">
+        <div>
+          <p class="text-[10px] tracking-wideCredit uppercase text-film-gold mb-2">CHRONOLOGY OF FRAMES</p>
+          <h2 class="font-serif text-4xl md:text-6xl text-film-cream tracking-poster uppercase font-normal">
+            THE STORY IN SCENES
+          </h2>
+        </div>
+        <p class="text-[10px] tracking-credit uppercase text-film-muted/70 mt-4 md:mt-0">
+          FOUR ACTS • SHOT ON LOCATION (2021 — 2026)
+        </p>
+      </div>
+
+      <!-- Asymmetrical Scene Cards with 3D Scroll & Hover Perspective -->
+      <div class="space-y-28 md:space-y-40 perspective-stage">
+
+        <!-- SCENE 01 -->
+        <article class="scene-card grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center preserve-3d">
+          <div class="lg:col-span-7 film-photo-wrap relative overflow-hidden rounded-sm border border-film-gold/25 bg-film-bgSoft p-2 md:p-3">
+            <div class="relative aspect-[16/10] overflow-hidden rounded-sm">
+              <img
+                src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1400&q=80"
+                onerror="this.src='https://placehold.co/1200x750/2B1D12/E8B84B?text=Scene+01+Rainy+Afternoon'"
+                alt="Scene 01 — Rainy Art House Cinema"
+                loading="lazy"
+                class="w-full h-full object-cover film-photo scene-parallax-img"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#1A120B]/80 via-transparent to-transparent"></div>
+              <span class="absolute bottom-3 left-4 font-mono text-[10px] tracking-widest text-film-gold/90">
+                TC 00:14:22:08 // 35MM
+              </span>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 lg:pl-6 space-y-4">
+            <div class="inline-flex items-center gap-3 text-[10px] tracking-wideCredit uppercase text-film-gold">
+              <span>SCENE 01</span>
+              <span class="w-8 h-[1px] bg-film-gold/50"></span>
+              <span>OCTOBER 2021</span>
+            </div>
+            <h3 class="font-serif text-3xl md:text-4xl text-film-goldLight tracking-wide">
+              INT. RETROSPECTIVE SCREENING — NIGHT
+            </h3>
+            <p class="text-sm md:text-base text-film-cream/85 font-light leading-relaxed">
+              Hujan deras membasahi lobi bioskop independen di sudut Cikini. Dua kursi tersisa di baris tengah saat pemutaran ulang film Wong Kar-wai. Sebuah payung yang tertukar di pintu keluar menjadi dialog pembuka yang tak pernah direncanakan dalam naskah siapa pun.
+            </p>
+            <p class="font-serif italic text-film-muted text-sm pt-2">
+              “Apakah kursi di sebelahmu sudah ada pemiliknya?”
+            </p>
+          </div>
+        </article>
+
+        <!-- SCENE 02 (Asymmetrical Right-aligned Photo) -->
+        <article class="scene-card grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center preserve-3d">
+          <div class="lg:col-span-5 order-2 lg:order-1 lg:pr-6 space-y-4 text-left lg:text-right">
+            <div class="inline-flex items-center lg:justify-end gap-3 text-[10px] tracking-wideCredit uppercase text-film-gold">
+              <span>MAY 2023</span>
+              <span class="w-8 h-[1px] bg-film-gold/50"></span>
+              <span>SCENE 02</span>
+            </div>
+            <h3 class="font-serif text-3xl md:text-4xl text-film-goldLight tracking-wide">
+              EXT. MISTY HIGHLANDS — DAWN
+            </h3>
+            <p class="text-sm md:text-base text-film-cream/85 font-light leading-relaxed">
+              Perjalanan darat pertama menembus kabut pagi perbukitan Ciwidey. Dengan termos kopi hangat dan kamera analog tua, kami menyadari bahwa keheningan bersama jauh lebih menenangkan daripada ribuan percakapan riuh di kota.
+            </p>
+            <p class="font-serif italic text-film-muted text-sm pt-2">
+              “Beberapa tempat terasa seperti rumah, bahkan sebelum kita tiba.”
+            </p>
+          </div>
+
+          <div class="lg:col-span-7 order-1 lg:order-2 film-photo-wrap relative overflow-hidden rounded-sm border border-film-gold/25 bg-film-bgSoft p-2 md:p-3">
+            <div class="relative aspect-[16/10] overflow-hidden rounded-sm">
+              <img
+                src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1400&q=80"
+                onerror="this.src='https://placehold.co/1200x750/2B1D12/E8B84B?text=Scene+02+Misty+Hills'"
+                alt="Scene 02 — Misty Highlands"
+                loading="lazy"
+                class="w-full h-full object-cover film-photo scene-parallax-img"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#1A120B]/80 via-transparent to-transparent"></div>
+              <span class="absolute bottom-3 right-4 font-mono text-[10px] tracking-widest text-film-gold/90">
+                TC 00:48:11:19 // 50MM ANAMORPHIC
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <!-- SCENE 03 -->
+        <article class="scene-card grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center preserve-3d">
+          <div class="lg:col-span-6 lg:col-start-2 film-photo-wrap relative overflow-hidden rounded-sm border border-film-gold/25 bg-film-bgSoft p-2 md:p-3">
+            <div class="relative aspect-[4/3] overflow-hidden rounded-sm">
+              <img
+                src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80"
+                onerror="this.src='https://placehold.co/1200x900/2B1D12/E8B84B?text=Scene+03+Golden+Coast'"
+                alt="Scene 03 — Golden Hour Coastline"
+                loading="lazy"
+                class="w-full h-full object-cover film-photo scene-parallax-img"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#1A120B]/80 via-transparent to-transparent"></div>
+              <span class="absolute bottom-3 left-4 font-mono text-[10px] tracking-widest text-film-gold/90">
+                TC 01:19:05:02 // GOLDEN HOUR
+              </span>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-4">
+            <div class="inline-flex items-center gap-3 text-[10px] tracking-wideCredit uppercase text-film-gold">
+              <span>SCENE 03</span>
+              <span class="w-8 h-[1px] bg-film-gold/50"></span>
+              <span>DECEMBER 2025</span>
+            </div>
+            <h3 class="font-serif text-3xl md:text-4xl text-film-goldLight tracking-wide">
+              EXT. SOUTHERN COASTLINE — GOLDEN HOUR
+            </h3>
+            <p class="text-sm md:text-base text-film-cream/85 font-light leading-relaxed">
+              Di bawah langit senja berwarna kuning keemasan dan deru ombak pantai selatan, sebuah pertanyaan sederhana diucapkan tanpa gemerlap panggung—hanya angin laut, cincin keluarga, dan mata yang berkaca-kaca.
+            </p>
+            <p class="font-serif italic text-film-muted text-sm pt-2">
+              “Maukah kau menulis babak-babak berikutnya bersamaku?”
+            </p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 4: GALLERY — "STILLS" (Depth-of-Field 3D Scroll)
+         ========================================== -->
+    <section id="gallery" class="relative py-28 md:py-40 px-6 md:px-16 max-w-7xl mx-auto">
+
+      <!-- Section Header -->
+      <div class="text-center max-w-2xl mx-auto mb-20">
+        <p class="text-[10px] tracking-wideCredit uppercase text-film-gold mb-3">
+          35MM CONTACT SHEET // SELECTED FRAMES
+        </p>
+        <h2 class="font-serif text-4xl md:text-6xl text-film-cream tracking-poster uppercase font-normal">
+          MOTION PICTURE STILLS
+        </h2>
+        <p class="text-xs tracking-credit uppercase text-film-muted/70 mt-4">
+          SCROLL TO PULL FOCUS ACROSS MEMORY FRAMES
+        </p>
+      </div>
+
+      <!-- Asymmetrical Editorial Poster Stills Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 items-start perspective-stage">
+
+        <!-- Still 23A: Wide Moody Forest (Span 7) -->
+        <figure class="dof-still md:col-span-7 film-photo-wrap bg-film-bgSoft/80 border border-film-gold/25 p-3 rounded-sm preserve-3d">
+          <div class="flex justify-between items-center text-[9px] font-mono tracking-widest text-film-gold/75 mb-2 px-1">
+            <span>KODAK PORTRA 400</span>
+            <span>FRAME 23A</span>
+          </div>
+          <div class="relative aspect-[16/10] overflow-hidden rounded-sm">
+            <img
+              src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1400&q=80"
+              onerror="this.src='https://placehold.co/1200x750/1A120B/E8B84B?text=Frame+23A'"
+              alt="Frame 23A — Intimate Hold"
+              loading="lazy"
+              class="w-full h-full object-cover film-photo"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-film-bg/70 via-transparent to-transparent"></div>
+          </div>
+          <figcaption class="mt-3 flex justify-between items-center text-[10px] tracking-credit uppercase text-film-muted/80 px-1">
+            <span>FIG. 01 — WHISPERS IN THE PINES</span>
+            <span class="font-serif italic capitalize text-film-goldLight">f/1.4 • 1/250s</span>
+          </figcaption>
+        </figure>
+
+        <!-- Still 24A: Vertical Editorial Portrait (Span 5, Offset Down) -->
+        <figure class="dof-still md:col-span-5 md:mt-24 film-photo-wrap bg-film-bgSoft/80 border border-film-gold/25 p-3 rounded-sm preserve-3d">
+          <div class="flex justify-between items-center text-[9px] font-mono tracking-widest text-film-gold/75 mb-2 px-1">
+            <span>KODAK PORTRA 400</span>
+            <span>FRAME 24A</span>
+          </div>
+          <div class="relative aspect-[4/5] overflow-hidden rounded-sm">
+            <img
+              src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1200&q=80"
+              onerror="this.src='https://placehold.co/900x1125/1A120B/E8B84B?text=Frame+24A'"
+              alt="Frame 24A — Warm Embrace"
+              loading="lazy"
+              class="w-full h-full object-cover film-photo"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-film-bg/70 via-transparent to-transparent"></div>
+          </div>
+          <figcaption class="mt-3 flex justify-between items-center text-[10px] tracking-credit uppercase text-film-muted/80 px-1">
+            <span>FIG. 02 — THE QUIET EMBRACE</span>
+            <span class="font-serif italic capitalize text-film-goldLight">f/2.0 • 1/500s</span>
+          </figcaption>
+        </figure>
+
+        <!-- Still 25B: Vertical Moody Silhouette (Span 5) -->
+        <figure class="dof-still md:col-span-5 md:-mt-12 film-photo-wrap bg-film-bgSoft/80 border border-film-gold/25 p-3 rounded-sm preserve-3d">
+          <div class="flex justify-between items-center text-[9px] font-mono tracking-widest text-film-gold/75 mb-2 px-1">
+            <span>ILFORD HP5 WARM</span>
+            <span>FRAME 25B</span>
+          </div>
+          <div class="relative aspect-[4/5] overflow-hidden rounded-sm">
+            <img
+              src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1200&q=80"
+              onerror="this.src='https://placehold.co/900x1125/1A120B/E8B84B?text=Frame+25B'"
+              alt="Frame 25B — Sunset Silhouette"
+              loading="lazy"
+              class="w-full h-full object-cover film-photo"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-film-bg/70 via-transparent to-transparent"></div>
+          </div>
+          <figcaption class="mt-3 flex justify-between items-center text-[10px] tracking-credit uppercase text-film-muted/80 px-1">
+            <span>FIG. 03 — GOLDEN DUSK</span>
+            <span class="font-serif italic capitalize text-film-goldLight">f/1.8 • 1/1000s</span>
+          </figcaption>
+        </figure>
+
+        <!-- Still 26A: Panoramic Landscape Horizon (Span 7) -->
+        <figure class="dof-still md:col-span-7 md:mt-12 film-photo-wrap bg-film-bgSoft/80 border border-film-gold/25 p-3 rounded-sm preserve-3d">
+          <div class="flex justify-between items-center text-[9px] font-mono tracking-widest text-film-gold/75 mb-2 px-1">
+            <span>KODAK VISION3 500T</span>
+            <span>FRAME 26A</span>
+          </div>
+          <div class="relative aspect-[16/9] overflow-hidden rounded-sm">
+            <img
+              src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1400&q=80"
+              onerror="this.src='https://placehold.co/1400x800/1A120B/E8B84B?text=Frame+26A'"
+              alt="Frame 26A — Sunbeams Over Valley"
+              loading="lazy"
+              class="w-full h-full object-cover film-photo"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-film-bg/70 via-transparent to-transparent"></div>
+          </div>
+          <figcaption class="mt-3 flex justify-between items-center text-[10px] tracking-credit uppercase text-film-muted/80 px-1">
+            <span>FIG. 04 — HORIZON OF PROMISE</span>
+            <span class="font-serif italic capitalize text-film-goldLight">f/2.8 • 1/125s</span>
+          </figcaption>
+        </figure>
+
+        <!-- Still 27C: Wide Centerpiece Cinema Anamorphic Frame (Span 10 Centered) -->
+        <figure class="dof-still md:col-span-10 md:col-start-2 mt-6 film-photo-wrap bg-film-bgSoft/80 border border-film-gold/25 p-3 md:p-4 rounded-sm preserve-3d">
+          <div class="flex justify-between items-center text-[9px] font-mono tracking-widest text-film-gold/75 mb-2 px-1">
+            <span>PANAVISION ANAMORPHIC</span>
+            <span>MASTER FRAME 27C</span>
+          </div>
+          <div class="relative aspect-[21/9] overflow-hidden rounded-sm">
+            <img
+              src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=85"
+              onerror="this.src='https://placehold.co/1600x685/1A120B/E8B84B?text=Master+Frame+27C'"
+              alt="Frame 27C — Valley of Golden Light"
+              loading="lazy"
+              class="w-full h-full object-cover film-photo"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-film-bg/85 via-transparent to-film-bg/30"></div>
+            <!-- Subtitle burned into frame -->
+            <div class="absolute bottom-4 md:bottom-7 inset-x-4 text-center">
+              <span class="px-3 py-1 bg-black/55 font-serif italic text-sm md:text-xl text-film-goldLight tracking-wide">
+                “And in that warm autumn light, time stood still.”
+              </span>
+            </div>
+          </div>
+          <figcaption class="mt-3 flex justify-between items-center text-[10px] tracking-credit uppercase text-film-muted/80 px-1">
+            <span>FIG. 05 — THE FINAL REHEARSAL</span>
+            <span class="font-serif italic capitalize text-film-goldLight">2.39:1 CINEMASCOPE</span>
+          </figcaption>
+        </figure>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 5: THE DAY — "PRODUCTION SCHEDULE & BILLING BLOCK"
+         ========================================== -->
+    <section id="schedule" class="relative py-28 md:py-40 px-6 md:px-16 max-w-6xl mx-auto">
+
+      <!-- Decorative Top Rule -->
+      <div class="border-t border-b border-film-gold/40 py-4 flex flex-wrap justify-between items-center gap-4 text-[10px] tracking-wideCredit uppercase text-film-gold">
+        <span>CALL SHEET // PRODUCTION DAY</span>
+        <span>SATURDAY, OCTOBER 24TH, 2026</span>
+        <span>LOC: BANDUNG HIGHLANDS</span>
+      </div>
+
+      <!-- Main Title -->
+      <div class="text-center my-16">
+        <p class="text-[10px] tracking-wideCredit uppercase text-film-muted/75 mb-3">
+          OFFICIAL SCREENING &amp; CEREMONY SCHEDULE
+        </p>
+        <h2 class="font-serif text-4xl sm:text-6xl md:text-7xl text-film-gold tracking-poster uppercase font-normal">
+          THE PREMIERE DAY
+        </h2>
+      </div>
+
+      <!-- Two-Column Screening Schedule (Akad & Reception) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 my-16 perspective-stage">
+
+        <!-- ACT I: AKAD NIKAH / HOLY MATRIMONY -->
+        <div class="scene-card bg-film-bgSoft/70 border border-film-gold/30 p-8 md:p-12 rounded-sm relative overflow-hidden preserve-3d">
+          <div class="flex justify-between items-center border-b border-film-gold/20 pb-4 mb-6">
+            <span class="text-[10px] tracking-wideCredit uppercase text-film-gold">ACT I — THE VOWS</span>
+            <span class="font-mono text-xs text-film-muted">REEL 01A</span>
+          </div>
+
+          <h3 class="font-serif text-3xl md:text-4xl text-film-cream tracking-wider mb-2">
+            AKAD NIKAH
+          </h3>
+          <p class="font-serif italic text-film-goldLight text-lg mb-8">
+            The Sacred Matrimony Ceremony
+          </p>
+
+          <div class="space-y-4 text-xs tracking-credit uppercase text-film-cream/90">
+            <div class="flex justify-between py-2 border-b border-film-gold/10">
+              <span class="text-film-muted">CALL TIME</span>
+              <span class="text-film-goldLight">15:00 — 16:30 WIB</span>
+            </div>
+            <div class="flex justify-between py-2 border-b border-film-gold/10">
+              <span class="text-film-muted">SET LOCATION</span>
+              <span class="text-right">GLASS CHAPEL, PINE HILL</span>
+            </div>
+            <div class="flex justify-between py-2 border-b border-film-gold/10">
+              <span class="text-film-muted">ATMOSPHERE</span>
+              <span>INTIMATE &amp; SOLEMN</span>
+            </div>
+          </div>
+
+          <p class="mt-6 text-xs text-film-muted/80 leading-relaxed font-light">
+            Dihadiri oleh keluarga inti dan sahabat terdekat di tengah hutan pinus sore hari saat cahaya keemasan menembus pepohonan.
+          </p>
+        </div>
+
+        <!-- ACT II: EVENING RECEPTION / DINNER SCREENING -->
+        <div class="scene-card bg-film-bgSoft/70 border border-film-gold/30 p-8 md:p-12 rounded-sm relative overflow-hidden preserve-3d">
+          <div class="flex justify-between items-center border-b border-film-gold/20 pb-4 mb-6">
+            <span class="text-[10px] tracking-wideCredit uppercase text-film-gold">ACT II — THE CELEBRATION</span>
+            <span class="font-mono text-xs text-film-muted">REEL 02B</span>
+          </div>
+
+          <h3 class="font-serif text-3xl md:text-4xl text-film-cream tracking-wider mb-2">
+            EVENING RECEPTION
+          </h3>
+          <p class="font-serif italic text-film-goldLight text-lg mb-8">
+            Under the Stars Soirée &amp; Toast
+          </p>
+
+          <div class="space-y-4 text-xs tracking-credit uppercase text-film-cream/90">
+            <div class="flex justify-between py-2 border-b border-film-gold/10">
+              <span class="text-film-muted">DOORS OPEN</span>
+              <span class="text-film-goldLight">18:30 — 21:30 WIB</span>
+            </div>
+            <div class="flex justify-between py-2 border-b border-film-gold/10">
+              <span class="text-film-muted">SET LOCATION</span>
+              <span class="text-right">AMPHITHEATRE LAWN</span>
+            </div>
+            <div class="flex justify-between py-2 border-b border-film-gold/10">
+              <span class="text-film-muted">WARDROBE CODE</span>
+              <span>WARM EARTH, ESPRESSO &amp; GOLD</span>
+            </div>
+          </div>
+
+          <p class="mt-6 text-xs text-film-muted/80 leading-relaxed font-light">
+            Perjamuan makan malam hangat di bawah lampu gantung temaram, iringan kuartet jazz klasik, dan pemutaran film pendek perjalanan kami.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Authentic Movie Poster Billing Block -->
+      <div class="mt-20 pt-12 border-t border-b border-film-gold/30 py-10 text-center max-w-4xl mx-auto">
+        <div class="billing-block select-none">
+          <span class="billing-role">PICTURES PRESENTS</span>
+          <span class="billing-name">SYIFA</span>
+          <span class="billing-role">AND</span>
+          <span class="billing-name">FARHAT</span>
+          <span class="billing-role">IN</span>
+          <span class="billing-name">“CINEMATIC MEMORIES”</span>
+          <br class="hidden sm:inline" />
+          <span class="billing-role">EXECUTIVE PRODUCERS</span>
+          <span class="billing-name">KEL. HENDRA WIDYA</span>
+          <span class="billing-role">&amp;</span>
+          <span class="billing-name">KEL. SURYA MAHENDRA</span>
+          <span class="billing-role">CINEMATOGRAPHY</span>
+          <span class="billing-name">ANALOG FRAMES STUDIO</span>
+          <br class="hidden sm:inline" />
+          <span class="billing-role">PRODUCTION DESIGN</span>
+          <span class="billing-name">PINE HILL SANCTUARY</span>
+          <span class="billing-role">ORIGINAL SCORE</span>
+          <span class="billing-name">AUTUMN QUARTET</span>
+          <span class="billing-role">FILMED AT</span>
+          <span class="billing-name">JALAN MARIBAYA TIMUR, LEMBANG, BANDUNG</span>
+        </div>
+
+        <!-- Interactive Map & Calendar Actions -->
+        <div class="mt-10 flex flex-wrap items-center justify-center gap-8">
+          <button
+            id="open-map-modal-btn"
+            type="button"
+            class="credit-link py-2 text-xs tracking-wideCredit uppercase text-film-goldLight hover:text-film-gold"
+          >
+            VIEW VENUE COORDINATES (MAP) ↗
+          </button>
+
+          <button
+            id="copy-address-btn"
+            type="button"
+            class="credit-link py-2 text-xs tracking-wideCredit uppercase text-film-muted hover:text-film-cream"
+          >
+            COPY LOCATION ADDRESS
+          </button>
+        </div>
+        <p id="copy-feedback" class="text-[10px] tracking-credit uppercase text-film-gold mt-3 opacity-0 transition-opacity duration-300">
+          COORDINATES COPIED TO CLIPBOARD
+        </p>
+      </div>
+
+      <!-- Digital Wedding Gift / Executive Producer Contribution -->
+      <div class="mt-16 max-w-2xl mx-auto text-center bg-film-bgSoft/40 border border-film-gold/20 p-8 rounded-sm">
+        <p class="text-[10px] tracking-wideCredit uppercase text-film-gold mb-2">
+          PATRONAGE &amp; TOKENS OF LOVE
+        </p>
+        <h3 class="font-serif text-2xl md:text-3xl text-film-cream mb-3">
+          Executive Producer’s Envelope
+        </h3>
+        <p class="text-xs text-film-muted/80 font-light leading-relaxed mb-6">
+          Kehadiran dan doa restu Anda adalah penghargaan tertinggi bagi pemutaran perdana hidup baru kami. Namun apabila Anda ingin mengirimkan tanda kasih secara digital:
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+          <div class="p-4 border border-film-gold/20 bg-film-bg/60 rounded-sm flex flex-col justify-between">
+            <div>
+              <p class="text-[9px] tracking-wideCredit uppercase text-film-gold">BCA // ARCHIVE ACCOUNT</p>
+              <p class="font-mono text-base text-film-cream mt-1" id="acc-bca">8420 1928 44</p>
+              <p class="text-[10px] tracking-credit uppercase text-film-muted/75 mt-1">A.N. SYIFA</p>
+            </div>
+            <button
+              type="button"
+              data-copy="8420192844"
+              class="copy-acc-btn mt-4 self-start text-[10px] tracking-credit uppercase text-film-goldLight credit-link"
+            >
+              COPY ACCOUNT NO.
+            </button>
+          </div>
+
+          <div class="p-4 border border-film-gold/20 bg-film-bg/60 rounded-sm flex flex-col justify-between">
+            <div>
+              <p class="text-[9px] tracking-wideCredit uppercase text-film-gold">MANDIRI // ARCHIVE ACCOUNT</p>
+              <p class="font-mono text-base text-film-cream mt-1" id="acc-mandiri">1310 0982 7712 4</p>
+              <p class="text-[10px] tracking-credit uppercase text-film-muted/75 mt-1">A.N. FARHAT</p>
+            </div>
+            <button
+              type="button"
+              data-copy="1310098277124"
+              class="copy-acc-btn mt-4 self-start text-[10px] tracking-credit uppercase text-film-goldLight credit-link"
+            >
+              COPY ACCOUNT NO.
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==========================================
+         SECTION 6: RSVP & WISHES — "END CREDITS & AUDIENCE NOTES"
+         ========================================== -->
+    <section id="rsvp" class="relative py-28 md:py-40 px-6 md:px-16 max-w-5xl mx-auto">
+
+      <div class="text-center mb-16">
+        <p class="text-[10px] tracking-wideCredit uppercase text-film-gold mb-3">
+          BOX OFFICE RESERVATION &amp; CRITICS’ NOTES
+        </p>
+        <h2 class="font-serif text-4xl md:text-6xl text-film-cream tracking-poster uppercase font-normal">
+          RESERVE YOUR SEAT
+        </h2>
+        <p class="text-xs tracking-credit uppercase text-film-muted/70 mt-3">
+          KINDLY CONFIRM ATTENDANCE BEFORE OCTOBER 10TH, 2026
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-14 items-start">
+
+        <!-- Minimalist End-Credit RSVP Form (Span 6) -->
+        <form id="rsvp-form" class="lg:col-span-6 space-y-8 bg-film-bgSoft/50 border border-film-gold/25 p-8 md:p-10 rounded-sm">
+          <div class="border-b border-film-gold/20 pb-3 flex justify-between items-center">
+            <span class="text-[10px] tracking-wideCredit uppercase text-film-gold">ADMIT ONE / TWO</span>
+            <span class="font-mono text-[10px] text-film-muted">TICKET NO. #2410</span>
+          </div>
+
+          <!-- Guest Name -->
+          <div class="film-input-group">
+            <label for="rsvp-name" class="block text-[10px] tracking-wideCredit uppercase text-film-muted mb-2">
+              GUEST NAME (CREDITED AS) *
+            </label>
+            <input
+              id="rsvp-name"
+              type="text"
+              required
+              placeholder="e.g. Nadya &amp; Raka"
+              class="film-input w-full bg-transparent border-b border-film-gold/30 py-3 text-sm text-film-cream placeholder-film-muted/35 focus:outline-none"
+            />
+            <span class="film-input-line"></span>
+          </div>
+
+          <!-- Attendance & Seats Row -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="film-input-group">
+              <label for="rsvp-status" class="block text-[10px] tracking-wideCredit uppercase text-film-muted mb-2">
+                ATTENDANCE *
+              </label>
+              <select
+                id="rsvp-status"
+                class="film-input w-full bg-film-bg border-b border-film-gold/30 py-3 text-xs tracking-credit uppercase text-film-cream focus:outline-none"
+              >
+                <option value="ATTENDING PREMIERE">ATTENDING PREMIERE</option>
+                <option value="SENDING WARM REGARDS">AFAR (WARM REGARDS)</option>
+              </select>
+              <span class="film-input-line"></span>
+            </div>
+
+            <div class="film-input-group">
+              <label for="rsvp-seats" class="block text-[10px] tracking-wideCredit uppercase text-film-muted mb-2">
+                SEATS RESERVED
+              </label>
+              <select
+                id="rsvp-seats"
+                class="film-input w-full bg-film-bg border-b border-film-gold/30 py-3 text-xs tracking-credit uppercase text-film-cream focus:outline-none"
+              >
+                <option value="1 SEAT">01 SEAT</option>
+                <option value="2 SEATS" selected>02 SEATS</option>
+              </select>
+              <span class="film-input-line"></span>
+            </div>
+          </div>
+
+          <!-- Wishes / Review Note -->
+          <div class="film-input-group">
+            <label for="rsvp-message" class="block text-[10px] tracking-wideCredit uppercase text-film-muted mb-2">
+              AUDIENCE NOTE / WISHES FOR THE COUPLE *
+            </label>
+            <textarea
+              id="rsvp-message"
+              rows="3"
+              required
+              placeholder="Write a warm note for the closing credits..."
+              class="film-input w-full bg-transparent border-b border-film-gold/30 py-3 text-sm text-film-cream placeholder-film-muted/35 focus:outline-none resize-none"
+            ></textarea>
+            <span class="film-input-line"></span>
+          </div>
+
+          <!-- Submit Button with Credit Roll Underline -->
+          <div class="pt-2 flex items-center justify-between">
+            <button
+              type="submit"
+              class="credit-link py-2.5 text-xs tracking-wideCredit uppercase text-film-gold hover:text-film-goldLight font-medium"
+            >
+              SUBMIT TO END CREDITS ⟶
+            </button>
+            <span id="rsvp-toast" class="text-[10px] tracking-credit uppercase text-film-goldLight opacity-0 transition-opacity duration-500">
+              RECORDED IN REEL
+            </span>
+          </div>
+        </form>
+
+        <!-- End-Credits Wishes Feed (Span 6) -->
+        <div class="lg:col-span-6 space-y-6">
+          <div class="flex items-center justify-between border-b border-film-gold/25 pb-4">
+            <span class="text-[10px] tracking-wideCredit uppercase text-film-gold">
+              AUDIENCE ACCLAIM &amp; WISHES ROLL
+            </span>
+            <span id="wishes-count" class="font-mono text-xs text-film-muted">04 NOTES</span>
+          </div>
+
+          <div id="wishes-list" class="space-y-6 max-h-[460px] overflow-y-auto pr-2">
+            <!-- Pre-populated Cinematic Wishes -->
+            <div class="border-b border-film-gold/15 pb-5 space-y-2">
+              <div class="flex justify-between items-center">
+                <h4 class="text-xs tracking-credit uppercase text-film-goldLight font-medium">Laras &amp; Dimas</h4>
+                <span class="text-[9px] tracking-credit uppercase text-film-muted/60">ATTENDING PREMIERE • 02 SEATS</span>
+              </div>
+              <p class="font-serif italic text-lg text-film-cream/90 leading-relaxed">
+                “Semoga pernikahan kalian seperti film klasik yang tak lekang oleh waktu—selalu hangat setiap kali diputar kembali. Sampai jumpa di Lembang!”
+              </p>
+            </div>
+
+            <div class="border-b border-film-gold/15 pb-5 space-y-2">
+              <div class="flex justify-between items-center">
+                <h4 class="text-xs tracking-credit uppercase text-film-goldLight font-medium">Rendra Prakoso</h4>
+                <span class="text-[9px] tracking-credit uppercase text-film-muted/60">ATTENDING PREMIERE • 01 SEAT</span>
+              </div>
+              <p class="font-serif italic text-lg text-film-cream/90 leading-relaxed">
+                “Masih ingat hari hujan di Cikini waktu kalian pertama kali cerita. Selamat menempuh babak paling indah, Syifa &amp; Farhat.”
+              </p>
+            </div>
+
+            <div class="border-b border-film-gold/15 pb-5 space-y-2">
+              <div class="flex justify-between items-center">
+                <h4 class="text-xs tracking-credit uppercase text-film-goldLight font-medium">Clara &amp; Jonathan</h4>
+                <span class="text-[9px] tracking-credit uppercase text-film-muted/60">AFAR (WARM REGARDS)</span>
+              </div>
+              <p class="font-serif italic text-lg text-film-cream/90 leading-relaxed">
+                “Wishing you both a lifetime of golden hours, quiet morning coffees, and endless laughter. Here’s to forever!”
+              </p>
+            </div>
+
+            <div class="border-b border-film-gold/15 pb-5 space-y-2">
+              <div class="flex justify-between items-center">
+                <h4 class="text-xs tracking-credit uppercase text-film-goldLight font-medium">Keluarga Besar Santoso</h4>
+                <span class="text-[9px] tracking-credit uppercase text-film-muted/60">ATTENDING PREMIERE • 02 SEATS</span>
+              </div>
+              <p class="font-serif italic text-lg text-film-cream/90 leading-relaxed">
+                “Selamat berbahagia untuk Syifa dan Farhat. Semoga cinta dan kasih sayang selalu menyertai rumah tangga kalian.”
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 7: CLOSING — "FIN / THE END"
+         ========================================== -->
+    <footer id="closing" class="relative min-h-[85vh] flex flex-col items-center justify-between py-24 px-6 border-t border-film-gold/20 overflow-hidden">
+
+      <!-- Top Credit Roll Note -->
+      <div class="text-center space-y-2 z-10">
+        <p class="text-[10px] tracking-wideCredit uppercase text-film-muted/60">
+          NO STUNT DOUBLES WERE USED IN THE MAKING OF THIS LOVE STORY
+        </p>
+        <p class="text-[10px] tracking-credit uppercase text-film-gold/75">
+          SHOT ENTIRELY ON LOCATION IN JAKARTA &amp; BANDUNG
+        </p>
+      </div>
+
+      <!-- Center "FIN." Title Card with Fade Effect -->
+      <div id="fin-card" class="text-center my-auto py-16 px-8 max-w-2xl mx-auto z-10">
+        <div class="w-16 h-[1px] bg-film-gold/50 mx-auto mb-8"></div>
+        <p class="font-serif italic text-xl md:text-2xl text-film-muted mb-3">
+          And so the new reel begins...
+        </p>
+        <h2 class="font-serif text-7xl sm:text-8xl md:text-9xl text-film-gold tracking-poster uppercase font-normal projector-flicker">
+          FIN.
+        </h2>
+        <p class="text-[11px] tracking-wideCredit uppercase text-film-cream/80 mt-6">
+          SYIFA &amp; FARHAT — OCTOBER 24, 2026
+        </p>
+        <div class="w-16 h-[1px] bg-film-gold/50 mx-auto mt-8"></div>
+
+        <!-- Replay Reel Action -->
+        <div class="mt-12">
+          <button
+            id="replay-reel-btn"
+            type="button"
+            class="credit-link py-2 text-[11px] tracking-wideCredit uppercase text-film-goldLight hover:text-film-gold"
+          >
+            ↑ REPLAY REEL FROM BEGINNING
+          </button>
+        </div>
+      </div>
+
+      <!-- Bottom Copyright & MPAA-Style Stamp -->
+      <div class="w-full max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-[9px] tracking-wideCredit uppercase text-film-muted/50 z-10">
+        <div class="flex items-center gap-3 border border-film-gold/25 px-3 py-1.5 rounded-sm">
+          <span class="font-serif text-sm text-film-gold font-bold">R</span>
+          <span>RATED ROMANTIC FOR UNCONDITIONAL DEVOTION</span>
+        </div>
+        <span>© MMXXVI SYIFA &amp; FARHAT PICTURES. ALL RIGHTS RESERVED.</span>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- ==========================================
+       VENUE COORDINATES MODAL (NO NATIVE ALERT)
+       ========================================== -->
+  <div id="map-modal" class="fixed inset-0 z-[90] bg-black/80 backdrop-blur-md hidden items-center justify-center p-6">
+    <div class="bg-film-bgSoft border border-film-gold/40 max-w-lg w-full p-8 rounded-sm relative shadow-2xl">
+      <div class="flex justify-between items-center border-b border-film-gold/20 pb-4 mb-6">
+        <span class="text-[10px] tracking-wideCredit uppercase text-film-gold">SET LOCATION COORDINATES</span>
+        <button id="close-map-modal-btn" class="text-xs tracking-credit uppercase text-film-muted hover:text-film-gold">
+          [CLOSE ×]
+        </button>
+      </div>
+
+      <h3 class="font-serif text-3xl text-film-cream mb-2">Pine Hill Sanctuary</h3>
+      <p class="text-xs tracking-credit uppercase text-film-goldLight mb-4">
+        Jalan Maribaya Timur Kp. Cibeunying Kaler, Lembang, Bandung Barat
+      </p>
+      <p class="text-xs text-film-muted/85 leading-relaxed mb-6 font-light">
+        Terletak di ketinggian 1.200 MDPL dengan udara sejuk hutan pinus. Kami menyarankan tamu undangan mengenakan pakaian hangat atau selendang tambahan untuk acara malam hari.
+      </p>
+
+      <div class="p-4 bg-film-bg border border-film-gold/20 rounded-sm font-mono text-xs text-film-gold mb-6 flex justify-between items-center">
+        <span>GPS: 6°49'30.4"S 107°39'54.2"E</span>
+        <span class="text-[10px] text-film-muted">VALET AVAILABLE</span>
+      </div>
+
+      <div class="flex justify-end gap-6">
+        <a
+          href="https://maps.google.com/?q=Pine+Hill+Cibodas+Lembang+Bandung"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-5 py-2.5 bg-film-gold text-film-bg text-[10px] tracking-wideCredit uppercase font-medium hover:bg-film-goldLight transition-colors rounded-sm"
+        >
+          OPEN IN GOOGLE MAPS ↗
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       JAVASCRIPT: LENIS, GSAP 3D SCROLL, AUDIO & GRAIN
+       ========================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      // --------------------------------------------------
+      // 0. PERSONALIZED GUEST NAME FROM URL (?to=Nama+Tamu)
+      // --------------------------------------------------
+      const urlParams = new URLSearchParams(window.location.search);
+      const guestParam = urlParams.get('to') || urlParams.get('guest');
+      if (guestParam) {
+        const guestEl = document.getElementById('guest-name-display');
+        const rsvpNameInput = document.getElementById('rsvp-name');
+        if (guestEl) guestEl.textContent = guestParam;
+        if (rsvpNameInput) rsvpNameInput.value = guestParam;
+      }
+
+      // --------------------------------------------------
+      // 1. FILM GRAIN CANVAS OVERLAY
+      // --------------------------------------------------
+      const grainCanvas = document.getElementById('film-grain-canvas');
+      const grainCtx = grainCanvas.getContext('2d');
+
+      function resizeGrain() {
+        grainCanvas.width = 256;
+        grainCanvas.height = 256;
+      }
+      resizeGrain();
+
+      function renderGrain() {
+        const w = grainCanvas.width;
+        const h = grainCanvas.height;
+        const imgData = grainCtx.createImageData(w, h);
+        const buffer = new Uint32Array(imgData.data.buffer);
+        for (let i = 0; i < buffer.length; i++) {
+          const shade = (Math.random() * 255) | 0;
+          // Warm sepia-tinted grain pixel
+          buffer[i] = (255 << 24) | ((shade * 0.7) << 16) | ((shade * 0.85) << 8) | shade;
+        }
+        grainCtx.putImageData(imgData, 0, 0);
+      }
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let grainInterval = null;
+      if (!prefersReducedMotion) {
+        grainInterval = setInterval(renderGrain, 90);
+      } else {
+        renderGrain();
+      }
+
+      // --------------------------------------------------
+      // 2. WEB AUDIO API: WARM ANALOG FILM SCORE & PROJECTOR BEEP
+      // --------------------------------------------------
+      let audioCtx = null;
+      let isAudioPlaying = false;
+      let masterGain = null;
+      let chordInterval = null;
+
+      function initAudioContext() {
+        if (!audioCtx) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          audioCtx = new AudioContextClass();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+      }
+
+      // Classic 1kHz 35mm Leader Beep
+      function playLeaderBeep(freq = 880, duration = 0.08) {
+        if (!audioCtx) return;
+        try {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+          gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + duration);
+        } catch (e) {
+          // Ignore if blocked before user gesture
+        }
+      }
+
+      // Nostalgic Warm Cinema Ambient Pad + Subtle Vinyl Dust Crackle
+      function startFilmScore() {
+        initAudioContext();
+        if (isAudioPlaying) return;
+
+        masterGain = audioCtx.createGain();
+        masterGain.gain.setValueAtTime(0.01, audioCtx.currentTime);
+        masterGain.gain.linearRampToValueAtTime(0.14, audioCtx.currentTime + 2.5);
+        masterGain.connect(audioCtx.destination);
+
+        // Warm Vinyl Crackle Buffer
+        const bufferSize = audioCtx.sampleRate * 3;
+        const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          output[i] = Math.random() < 0.0025 ? (Math.random() * 2 - 1) * 0.35 : (Math.random() * 2 - 1) * 0.015;
+        }
+        const whiteNoise = audioCtx.createBufferSource();
+        whiteNoise.buffer = noiseBuffer;
+        whiteNoise.loop = true;
+
+        const bandpass = audioCtx.createBiquadFilter();
+        bandpass.type = 'bandpass';
+        bandpass.frequency.value = 1400;
+
+        const crackleGain = audioCtx.createGain();
+        crackleGain.gain.value = 0.18;
+
+        whiteNoise.connect(bandpass);
+        bandpass.connect(crackleGain);
+        crackleGain.connect(masterGain);
+        whiteNoise.start();
+
+        // Romantic Cinema Chords (Fmaj7 - Em7 - Dm7 - Cmaj7)
+        const chords = [
+          [174.61, 220.00, 261.63, 329.63], // Fmaj7
+          [164.81, 196.00, 246.94, 293.66], // Em7
+          [146.83, 174.61, 220.00, 261.63], // Dm7
+          [130.81, 164.81, 196.00, 246.94]  // Cmaj7
+        ];
+        let chordIdx = 0;
+
+        function playWarmChord() {
+          if (!isAudioPlaying) return;
+          const notes = chords[chordIdx % chords.length];
+          chordIdx++;
+          const now = audioCtx.currentTime;
+
+          notes.forEach((freq) => {
+            const osc = audioCtx.createOscillator();
+            const noteGain = audioCtx.createGain();
+            const filter = audioCtx.createBiquadFilter();
+
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now);
+
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(520, now);
+
+            noteGain.gain.setValueAtTime(0.0001, now);
+            noteGain.gain.linearRampToValueAtTime(0.06, now + 1.8);
+            noteGain.gain.exponentialRampToValueAtTime(0.0001, now + 5.8);
+
+            osc.connect(filter);
+            filter.connect(noteGain);
+            noteGain.connect(masterGain);
+
+            osc.start(now);
+            osc.stop(now + 6.0);
+          });
+        }
+
+        isAudioPlaying = true;
+        playWarmChord();
+        chordInterval = setInterval(playWarmChord, 5500);
+        updateAudioUI(true);
+      }
+
+      function stopFilmScore() {
+        if (!isAudioPlaying || !masterGain) return;
+        isAudioPlaying = false;
+        if (chordInterval) clearInterval(chordInterval);
+        try {
+          masterGain.gain.linearRampToValueAtTime(0.0001, audioCtx.currentTime + 0.6);
+        } catch (e) {}
+        updateAudioUI(false);
+      }
+
+      function updateAudioUI(playing) {
+        const label = document.getElementById('sound-status-label');
+        const bars = document.querySelectorAll('.eq-bar');
+        if (label) {
+          label.textContent = playing ? 'SCORE: PLAYING' : 'SCORE: MUTED';
+        }
+        bars.forEach((bar, i) => {
+          if (playing) {
+            bar.style.height = `${6 + ((i * 3) % 8)}px`;
+            bar.classList.add('animate-pulse');
+          } else {
+            bar.style.height = '4px';
+            bar.classList.remove('animate-pulse');
+          }
+        });
+      }
+
+      document.getElementById('sound-toggle-btn').addEventListener('click', () => {
+        if (isAudioPlaying) {
+          stopFilmScore();
+        } else {
+          startFilmScore();
+        }
+      });
+
+      // --------------------------------------------------
+      // 3. 35MM FILM LEADER COUNTDOWN SEQUENCE (3 - 2 - 1)
+      // --------------------------------------------------
+      const leaderEl = document.getElementById('film-leader');
+      const leaderNumEl = document.getElementById('leader-number');
+      const leaderStatusEl = document.getElementById('leader-status-text');
+      const btnEnterAudio = document.getElementById('btn-enter-audio');
+      const btnEnterSilent = document.getElementById('btn-enter-silent');
+
+      let count = 3;
+      let leaderExited = false;
+
+      const countdownTimer = setInterval(() => {
+        count--;
+        if (count >= 1) {
+          leaderNumEl.textContent = String(count);
+          playLeaderBeep(880, 0.07);
+        } else {
+          clearInterval(countdownTimer);
+          leaderNumEl.textContent = '●';
+          leaderStatusEl.textContent = 'REEL READY FOR PROJECTION';
+        }
+      }, 900);
+
+      function exitLeaderScreen(withAudio) {
+        if (leaderExited) return;
+        leaderExited = true;
+        clearInterval(countdownTimer);
+
+        if (withAudio) {
+          startFilmScore();
+          playLeaderBeep(1320, 0.12);
+        }
+
+        gsap.to(leaderEl, {
+          opacity: 0,
+          scale: 1.06,
+          duration: 1.3,
+          ease: 'power3.inOut',
+          onComplete: () => {
+            leaderEl.style.display = 'none';
+            playHeroEntrance();
+          }
+        });
+      }
+
+      btnEnterAudio.addEventListener('click', () => exitLeaderScreen(true));
+      btnEnterSilent.addEventListener('click', () => exitLeaderScreen(false));
+
+      // --------------------------------------------------
+      // 4. LENIS SMOOTH SCROLL + GSAP SCROLLTRIGGER SETUP
+      // --------------------------------------------------
+      gsap.registerPlugin(ScrollTrigger);
+
+      const lenis = new Lenis({
+        duration: 1.35,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        wheelMultiplier: 0.9,
+      });
+
+      lenis.on('scroll', (e) => {
+        ScrollTrigger.update();
+        updateReelTimecode(e.progress);
+      });
+
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+      gsap.ticker.lagSmoothing(0);
+
+      function updateReelTimecode(progress = 0) {
+        const tcEl = document.getElementById('reel-timecode');
+        if (!tcEl) return;
+        const totalFrames = Math.floor(progress * 24 * 145); // ~2m25s reel
+        const frames = String(totalFrames % 24).padStart(2, '0');
+        const totalSeconds = Math.floor(totalFrames / 24);
+        const seconds = String(totalSeconds % 60).padStart(2, '0');
+        const minutes = String(Math.floor(totalSeconds / 60) % 60).padStart(2, '0');
+        tcEl.textContent = `00:${minutes}:${seconds}:${frames}`;
+      }
+
+      // --------------------------------------------------
+      // 5. HERO ENTRANCE & MULTI-LAYER 3D SCROLL PARALLAX
+      // --------------------------------------------------
+      function playHeroEntrance() {
+        gsap.fromTo(
+          '.hero-reveal',
+          { y: 36, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.4,
+            stagger: 0.16,
+            ease: 'power3.out'
+          }
+        );
+      }
+
+      const isMobile = window.innerWidth < 768;
+      const maxTiltDeg = isMobile ? 4 : 10;
+
+      if (!prefersReducedMotion) {
+        // Hero Multi-layer Parallax & Title Card 3D Recession (translateZ negative)
+        const heroTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: '#hero',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1.1
+          }
+        });
+
+        // Background moves slowest & scales slightly
+        heroTl.to('#hero-bg-layer', {
+          yPercent: isMobile ? 12 : 24,
+          scale: 1.08,
+          ease: 'none'
+        }, 0);
+
+        // Midground mist/frame moves medium speed
+        heroTl.to('#hero-mid-layer', {
+          yPercent: isMobile ? -8 : -16,
+          z: -80,
+          opacity: 0.15,
+          ease: 'none'
+        }, 0);
+
+        // Foreground Title Card sinks backward in 3D space (negative translateZ)
+        heroTl.to('#hero-title-card', {
+          z: isMobile ? -140 : -320,
+          yPercent: -12,
+          rotateX: maxTiltDeg * 0.65,
+          opacity: 0.08,
+          filter: 'blur(4px)',
+          ease: 'none'
+        }, 0);
+
+        // --------------------------------------------------
+        // 6. OPENING CREDITS & SUBTITLE CLIP-PATH REVEALS
+        // --------------------------------------------------
+        gsap.utils.toArray('.reveal-block').forEach((block) => {
+          gsap.fromTo(
+            block,
+            { y: 40, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 1.2,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: block,
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        gsap.utils.toArray('.subtitle-line').forEach((line, idx) => {
+          gsap.fromTo(
+            line,
+            {
+              clipPath: 'polygon(0 0, 0 0, 0 100%, 0 100%)',
+              y: 14,
+              opacity: 0.2
+            },
+            {
+              clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+              y: 0,
+              opacity: 1,
+              duration: 1.35,
+              delay: idx * 0.12,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: line,
+                start: 'top 86%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        // --------------------------------------------------
+        // 7. SCENE CARDS: 3D PERSPECTIVE ROTATEX / ROTATEY ON SCROLL
+        // --------------------------------------------------
+        gsap.utils.toArray('.scene-card').forEach((card, i) => {
+          const dir = i % 2 === 0 ? 1 : -1;
+          gsap.fromTo(
+            card,
+            {
+              rotateX: maxTiltDeg,
+              rotateY: -dir * (maxTiltDeg * 0.75),
+              z: -90,
+              y: 60,
+              opacity: 0.25
+            },
+            {
+              rotateX: 0,
+              rotateY: 0,
+              z: 0,
+              y: 0,
+              opacity: 1,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: card,
+                start: 'top 90%',
+                end: 'center 55%',
+                scrub: 1
+              }
+            }
+          );
+        });
+
+        // Inner Scene Image Parallax
+        gsap.utils.toArray('.scene-parallax-img').forEach((img) => {
+          gsap.fromTo(
+            img,
+            { scale: 1.14, yPercent: -6 },
+            {
+              scale: 1.04,
+              yPercent: 6,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: img,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true
+              }
+            }
+          );
+        });
+
+        // --------------------------------------------------
+        // 8. GALLERY STILLS: DEPTH-OF-FIELD (SCALE + BLUR + OPACITY)
+        // --------------------------------------------------
+        gsap.utils.toArray('.dof-still').forEach((still, idx) => {
+          const tiltY = idx % 2 === 0 ? (maxTiltDeg * 0.5) : -(maxTiltDeg * 0.5);
+
+          const dofTl = gsap.timeline({
+            scrollTrigger: {
+              trigger: still,
+              start: 'top 95%',
+              end: 'bottom 5%',
+              scrub: 1
+            }
+          });
+
+          // Enter from out-of-focus depth -> pull crisp focus in center -> recede gently
+          dofTl
+            .fromTo(
+              still,
+              {
+                scale: 0.86,
+                rotateX: maxTiltDeg * 0.8,
+                rotateY: tiltY,
+                filter: 'blur(7px)',
+                opacity: 0.25,
+                y: 50
+              },
+              {
+                scale: 1,
+                rotateX: 0,
+                rotateY: 0,
+                filter: 'blur(0px)',
+                opacity: 1,
+                y: 0,
+                duration: 0.45,
+                ease: 'power2.out'
+              }
+            )
+            .to(still, {
+              scale: 1,
+              filter: 'blur(0px)',
+              opacity: 1,
+              duration: 0.25
+            })
+            .to(still, {
+              scale: 0.93,
+              rotateX: -maxTiltDeg * 0.5,
+              filter: 'blur(4px)',
+              opacity: 0.45,
+              y: -30,
+              duration: 0.3,
+              ease: 'power2.in'
+            });
+        });
+
+        // --------------------------------------------------
+        // 9. CLOSING "FIN." FADE-IN SEQUENCE
+        // --------------------------------------------------
+        gsap.fromTo(
+          '#fin-card',
+          { scale: 0.88, opacity: 0, filter: 'blur(6px)' },
+          {
+            scale: 1,
+            opacity: 1,
+            filter: 'blur(0px)',
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '#closing',
+              start: 'top 75%',
+              end: 'center center',
+              scrub: 1
+            }
+          }
+        );
+      }
+
+      // --------------------------------------------------
+      // 10. CUSTOM GOLDEN DOT CURSOR & INTERACTIVE HOVER
+      // --------------------------------------------------
+      const cursorDot = document.getElementById('cursor-dot');
+      const cursorRing = document.getElementById('cursor-ring');
+
+      if (window.matchMedia('(pointer: fine)').matches && cursorDot && cursorRing) {
+        const xDot = gsap.quickTo(cursorDot, 'x', { duration: 0.1, ease: 'power3' });
+        const yDot = gsap.quickTo(cursorDot, 'y', { duration: 0.1, ease: 'power3' });
+        const xRing = gsap.quickTo(cursorRing, 'x', { duration: 0.35, ease: 'power3' });
+        const yRing = gsap.quickTo(cursorRing, 'y', { duration: 0.35, ease: 'power3' });
+
+        window.addEventListener('mousemove', (e) => {
+          xDot(e.clientX);
+          yDot(e.clientY);
+          xRing(e.clientX);
+          yRing(e.clientY);
+        });
+
+        const interactiveEls = document.querySelectorAll('a, button, input, select, textarea, .film-photo-wrap');
+        interactiveEls.forEach((el) => {
+          el.addEventListener('mouseenter', () => {
+            cursorRing.style.width = '48px';
+            cursorRing.style.height = '48px';
+            cursorRing.style.borderColor = '#F2CC6B';
+            cursorRing.style.backgroundColor = 'rgba(232, 184, 75, 0.1)';
+          });
+          el.addEventListener('mouseleave', () => {
+            cursorRing.style.width = '32px';
+            cursorRing.style.height = '32px';
+            cursorRing.style.borderColor = 'rgba(232, 184, 75, 0.45)';
+            cursorRing.style.backgroundColor = 'transparent';
+          });
+        });
+      }
+
+      // --------------------------------------------------
+      // 11. CLIPBOARD HELPER & VENUE MODAL
+      // --------------------------------------------------
+      function copyTextToClipboard(text, onSuccess) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          if (onSuccess) onSuccess();
+        } catch (err) {}
+        document.body.removeChild(textArea);
+      }
+
+      const copyAddressBtn = document.getElementById('copy-address-btn');
+      const copyFeedback = document.getElementById('copy-feedback');
+      copyAddressBtn.addEventListener('click', () => {
+        copyTextToClipboard(
+          'Pine Hill Sanctuary, Jalan Maribaya Timur, Lembang, Bandung Barat',
+          () => {
+            copyFeedback.style.opacity = '1';
+            setTimeout(() => {
+              copyFeedback.style.opacity = '0';
+            }, 2500);
+          }
+        );
+      });
+
+      document.querySelectorAll('.copy-acc-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const num = btn.getAttribute('data-copy');
+          const originalText = btn.textContent;
+          copyTextToClipboard(num, () => {
+            btn.textContent = 'COPIED TO CLIPBOARD ✓';
+            setTimeout(() => {
+              btn.textContent = originalText;
+            }, 2200);
+          });
+        });
+      });
+
+      // Map Modal Toggle
+      const mapModal = document.getElementById('map-modal');
+      const openMapBtn = document.getElementById('open-map-modal-btn');
+      const closeMapBtn = document.getElementById('close-map-modal-btn');
+
+      openMapBtn.addEventListener('click', () => {
+        mapModal.classList.remove('hidden');
+        mapModal.classList.add('flex');
+      });
+      closeMapBtn.addEventListener('click', () => {
+        mapModal.classList.add('hidden');
+        mapModal.classList.remove('flex');
+      });
+      mapModal.addEventListener('click', (e) => {
+        if (e.target === mapModal) {
+          mapModal.classList.add('hidden');
+          mapModal.classList.remove('flex');
+        }
+      });
+
+      // --------------------------------------------------
+      // 12. RSVP END-CREDIT FORM SUBMISSION
+      // --------------------------------------------------
+      const rsvpForm = document.getElementById('rsvp-form');
+      const wishesList = document.getElementById('wishes-list');
+      const wishesCount = document.getElementById('wishes-count');
+      const rsvpToast = document.getElementById('rsvp-toast');
+      let totalWishes = 4;
+
+      rsvpForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('rsvp-name').value.trim();
+        const status = document.getElementById('rsvp-status').value;
+        const seats = document.getElementById('rsvp-seats').value;
+        const message = document.getElementById('rsvp-message').value.trim();
+
+        if (!name || !message) return;
+
+        totalWishes++;
+        wishesCount.textContent = `${String(totalWishes).padStart(2, '0')} NOTES`;
+
+        const item = document.createElement('div');
+        item.className = 'border-b border-film-gold/25 pb-5 space-y-2 opacity-0 -translate-y-2 transition-all duration-700';
+
+        const headerDiv = document.createElement('div');
+        headerDiv.className = 'flex justify-between items-center';
+
+        const nameEl = document.createElement('h4');
+        nameEl.className = 'text-xs tracking-credit uppercase text-film-gold font-medium';
+        nameEl.textContent = name;
+
+        const metaEl = document.createElement('span');
+        metaEl.className = 'text-[9px] tracking-credit uppercase text-film-muted/75';
+        metaEl.textContent = status === 'ATTENDING PREMIERE' ? `${status} • ${seats}` : status;
+
+        headerDiv.appendChild(nameEl);
+        headerDiv.appendChild(metaEl);
+
+        const msgEl = document.createElement('p');
+        msgEl.className = 'font-serif italic text-lg text-film-cream leading-relaxed';
+        msgEl.textContent = `“${message}”`;
+
+        item.appendChild(headerDiv);
+        item.appendChild(msgEl);
+
+        wishesList.prepend(item);
+        requestAnimationFrame(() => {
+          item.classList.remove('opacity-0', '-translate-y-2');
+        });
+
+        rsvpToast.style.opacity = '1';
+        setTimeout(() => {
+          rsvpToast.style.opacity = '0';
+        }, 3000);
+
+        document.getElementById('rsvp-message').value = '';
+      });
+
+      // --------------------------------------------------
+      // 13. REPLAY REEL SMOOTH SCROLL TO TOP
+      // --------------------------------------------------
+      document.getElementById('replay-reel-btn').addEventListener('click', () => {
+        lenis.scrollTo('#hero', { duration: 2.2 });
+      });
+
+    })();
+  </script>
+</body>
+</html>
